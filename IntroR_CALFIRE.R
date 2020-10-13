@@ -76,6 +76,18 @@ df6 <- mutate(df5, interv = interval(Start_Date, Controlled_Date),
               dur = as.duration(interv))
               days = as.numeric(dur, "days")
               
+##### Introduction to Piping #####
+
+socal.fires <- data %>% 
+                #mac: cmd + shift+ m
+                
+  select(County_Unit:Controlled_Date, Total_Acres_Burned, Cause:Structures_Damaged) %>% 
+  filter(County_Unit %in% c("SANTA BARBARA", "VENTURA", "LOS ANGELES", "SAN DIEGO", "ORANGE", "VENTURA/SANTA BARBARA") & Total_Acres_Burned >= 500) %>% 
+                arrange((desc(Total_Acres_Burned)) %>% 
+                          mutate(struct_impact = Structures_Damaged + Structures_Destroyed),
+                        interv = interval(Start_Date, Controlled_Date), 
+                        dur = as.duration(interv))
+                        days = as.numeric(dur, "days")
 
 
 

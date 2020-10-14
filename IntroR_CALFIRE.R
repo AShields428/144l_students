@@ -115,21 +115,19 @@ socal.fires <- data %>%
 #Everything after that is extra to make it beautiful
 
 
-ggplot(socal.fires, aes(x = Start_Date, y = Total_Acres_Burned))+
-  geom_point(aes(color = County_Unit))+ ggtitle("CA South Coast Major Fires \n2014 - 2018")+
+ggplot(socal.fires, aes(x = Start_Date, y = Total_Acres_Burned)) +
+  geom_point(aes(color = County_Unit)) + ggtitle("CA South Coast Major Fires \n2014 - 2018") +
   labs(x = "", y = "Total Acres Burned", color = "County") + 
   theme_bw() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
   facet_grid(rows = "County_Unit", scales = "free")
-
 incidents <- socal.fires %>% 
   rename(county = County_Unit,
          acres = Total_Acres_Burned,
          start = Start_Date,
          end = Controlled_Date) %>% 
-  mutate(year= year(start),
-         county = ifelse(county = "VENTURA/SANTA BARBARA","VENTURA", county))
-
+  mutate(year = year(start),
+         county = ifelse(county == "VENTURA/SANTA BARBARA", "VENTURA", county)
 incidents <- plot.data
   group_by(county, year) %>% 
   tally()
@@ -149,4 +147,8 @@ all_incidents <- plot.data %>%
   group_by (year) %>% 
   tally()
   ungroup()
+  
+  #####SAVE DATA AND PLOTS #####
+  
+  SAVERDS(socal.fires, file = )
   
